@@ -3,6 +3,8 @@ from django.contrib import admin
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.text import capfirst
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 
 from .admin_model_nav import NAV_MENU_ORDER
 
@@ -10,6 +12,7 @@ from .admin_model_nav import NAV_MENU_ORDER
 class CompanyAdminSite(admin.AdminSite):
     site_header = "Company Admin"
 
+    @method_decorator(never_cache)
     def index(self, request, extra_context=None):
         """
         Display the main admin index page, which lists all of the installed
@@ -67,7 +70,7 @@ class CompanyAdminSite(admin.AdminSite):
                 admin_url = None
                 add_url = None
                 has_model_perms = {}
-            if request.user.has_perms(f"view_{node.get('model_name')}"):
+            if request.user.has_perms([f"{node.get('app_name')}.view_{node.get('model_name')}"]):
                 app_list.append(
                     {
                         "app_label": node.get("app_name"),

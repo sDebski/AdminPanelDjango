@@ -6,7 +6,7 @@
 
 ## ✉️ Technologies used:
 
-- Django 3.2
+- Django 5.0.3
 - PostgreSQL 16.2
 
 ### Packages used in Admin Panel:
